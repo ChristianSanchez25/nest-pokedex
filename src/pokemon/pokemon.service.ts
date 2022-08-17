@@ -31,7 +31,6 @@ export class PokemonService {
 
   async findOne(term: string) {
     let pokemon : Pokemon;
-
     if ( !isNaN(+term) ){
       pokemon = await this.pokemonModel.findOne({no: term});
     }
@@ -75,5 +74,13 @@ export class PokemonService {
       throw new BadRequestException (`Pokemon already exists ${JSON.stringify(error.keyValue)}`);
     }
     throw new InternalServerErrorException (`Can't update pokemon`);
+  }
+
+  async deleteAll(){
+    await this.pokemonModel.deleteMany({});
+  }
+
+  async insertAll(pokemons : CreatePokemonDto[] ) {
+    await this.pokemonModel.insertMany(pokemons);
   }
 }
